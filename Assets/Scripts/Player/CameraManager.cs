@@ -24,21 +24,17 @@ public class CameraManager : MonoBehaviour
     public Vector2 Sensitivity => sensitivity;
     public float CameraYRange => cameraYRange;
 
-    private void Update()
+    private void Awake()
     {
-        if (_shakeCamera) return;
-        
-        if (cameraOffset.m_Offset == Vector3.zero) return;
-            
-        cameraOffset.m_Offset = Vector3.SlerpUnclamped(cameraOffset.m_Offset, Vector3.zero, Time.deltaTime * 10f);
+        cameraAnimator.SetTrigger("StartShake");
     }
 
-    public void ToggleShake(bool state)
-    {
-        if (_shakeCamera != state)
-            cameraAnimator.SetTrigger(state ? "StartShake" : "StopShake");
-        _shakeCamera = state;
-    }
+    // public void ToggleShake(bool state)
+    // {
+    //     if (_shakeCamera != state)
+    //         cameraAnimator.SetTrigger(state ? "StartShake" : "StopShake");
+    //     _shakeCamera = state;
+    // }
 
     public void ManageAnimationSpeed(float speed)
     {

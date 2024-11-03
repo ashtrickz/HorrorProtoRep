@@ -42,8 +42,8 @@ public class PlayerController : MonoBehaviour
 
     private void HandleCamera()
     {
-        cameraManager.ToggleShake(inputManager.InputAxis != Vector2.zero);
-        cameraManager.ManageAnimationSpeed(inputManager.IsSprinting ? 2 : 1);
+        if (inputManager.InputAxis == Vector2.zero) cameraManager.ManageAnimationSpeed(0.25f);
+        else cameraManager.ManageAnimationSpeed(inputManager.IsSprinting ? 2 : 1);
     }
 
     private void HandleMovement()
