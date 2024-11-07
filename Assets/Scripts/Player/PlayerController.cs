@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using Sirenix.Reflection.Editor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem.UI;
@@ -9,11 +10,6 @@ using UnityEngine.InputSystem.UI;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private CharacterController controller;
-
-    [Space, Title("Managers", TitleAlignment = TitleAlignments.Centered)] [SerializeField]
-    private InputManager inputManager;
-
-    [SerializeField] private CameraManager cameraManager;
 
     [Space, Title("Controller Settings", TitleAlignment = TitleAlignments.Centered)] [SerializeField]
     private float walkSpeed;
@@ -27,6 +23,15 @@ public class PlayerController : MonoBehaviour
     private Vector3 _moveDirection;
     private float _velocity;
 
+    private PlayerManager _player;
+    private InputManager InputManager => _player.InputManager;
+    private CameraManager CameraManager => _player.CameraManager;
+
+    public void Init(PlayerManager playerManager)
+    {
+        _player = playerManager;
+    }
+    
     public void FixedUpdate()
     {
         HandleGravity();
@@ -37,22 +42,16 @@ public class PlayerController : MonoBehaviour
     public void Update()
     {
         HandleRotation();
-        HandleCamera  ();
-    }
-
-    private void HandleCamera()
-    {
-        if (inputManager.InputAxis == Vector2.zero) cameraManager.ManageAnimationSpeed(0.25f);
-        else cameraManager.ManageAnimationSpeed(inputManager.IsSprinting ? 2 : 1);
+        HandleCamera();
     }
 
     private void HandleMovement()
     {
-        if (!inputManager.IsActive) return;
+        if (!InputManager.IsActive) return;
 
-        _moveDirection = new Vector3(inputManager.InputAxis.x, _moveDirection.y, inputManager.InputAxis.y);
+        _moveDirection = new Vector3(InputManager.InputAxis.x, _moveDirection.y, InputManager.InputAxis.y);
         _moveDirection = transform.TransformDirection(_moveDirection);
-        _moveDirection *= (inputManager.IsSprinting ? runSpeed : walkSpeed);
+        _moveDirection *= (InputManager.IsSprinting ? runSpeed : walkSpeed);
 
         controller.Move(_moveDirection * Time.fixedDeltaTime);
     }
@@ -67,17 +66,18 @@ public class PlayerController : MonoBehaviour
 
     private void HandleJump()
     {
-        if (inputManager.IsJumping && controller.isGrounded) _velocity += jumpForce;
+        if (InputManager.IsJumping && controller.isGrounded) _velocity += jumpForce;
     }
 
     private void HandleRotation()
     {
-        var im = inputManager;
-        var cm = cameraManager;
+        // Try euler 
+        transform.Rotate(Vector3.up, InputManager.CameraInput.x * CameraManager.Sensitivity.x * Time.deltaTime);
+    }
 
-        transform.Rotate(Vector3.up, im.CameraInput.x * cm.Sensitivity.x * Time.deltaTime);
-        var pitch = -im.CameraInput.y * cm.Sensitivity.y * Time.deltaTime;
-        pitch = Mathf.Clamp(pitch, -cm.CameraYRange, cm.CameraYRange);
-        cm.CmCamera.transform.localEulerAngles = new Vector3(pitch, cm.CmCamera.transform.localEulerAngles.y, 0f);
+    private void HandleCamera()
+    {
+        if (InputManager.InputAxis == Vector2.zero) CameraManager.ManageAnimationSpeed(0.25f);
+        else CameraManager.ManageAnimationSpeed(InputManager.IsSprinting ? 2 : 1);
     }
 }

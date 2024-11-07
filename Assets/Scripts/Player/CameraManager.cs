@@ -8,33 +8,33 @@ using UnityEngine;
 public class CameraManager : MonoBehaviour
 {
     [Header("Camera Settings")] 
-    [SerializeField]
-    private Vector2 sensitivity;
-    [SerializeField, Range(0, 100)]
-    private float cameraYRange;
+    [SerializeField]                private Vector2 sensitivity;
+    [SerializeField]                private   float verticalSensMultiplier;
+    [SerializeField, Range(0, 100)] private   float cameraYRange;
+    [SerializeField, Range(0, 1)]   private   float accelDecelTime = 0;
 
+    [Header("References")]
     [SerializeField] private CinemachineVirtualCamera cmCamera;
-    [SerializeField] private CinemachineCameraOffset cameraOffset;
-    [SerializeField] private Animator cameraAnimator;
-    
-    private bool _shakeCamera = false;
+    [SerializeField] private                 Animator cameraAnimator;
 
-    public CinemachineVirtualCamera CmCamera => cmCamera;
-    
+    private CinemachinePOV _pov;
+
     public Vector2 Sensitivity => sensitivity;
-    public float CameraYRange => cameraYRange;
 
-    private void Awake()
+    private PlayerManager _player;
+    
+    public void Init(PlayerManager playerManager)
     {
+        _player = playerManager;
+        
         cameraAnimator.SetTrigger("StartShake");
+        
+        _pov = GetComponentInChildren<CinemachinePOV>();
+        _pov.m_VerticalAxis.m_MaxSpeed = sensitivity.y * verticalSensMultiplier;
+        _pov.m_VerticalAxis.m_MinValue = -cameraYRange;
+        _pov.m_VerticalAxis.m_MaxValue = cameraYRange;
+        _pov.m_VerticalAxis.m_AccelTime = _pov.m_VerticalAxis.m_DecelTime = accelDecelTime;
     }
-
-    // public void ToggleShake(bool state)
-    // {
-    //     if (_shakeCamera != state)
-    //         cameraAnimator.SetTrigger(state ? "StartShake" : "StopShake");
-    //     _shakeCamera = state;
-    // }
 
     public void ManageAnimationSpeed(float speed)
     {
