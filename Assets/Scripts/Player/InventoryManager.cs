@@ -86,6 +86,8 @@ public class InventoryManager : MonoBehaviour
 
     public void SwitchItem(int slotId)
     {
+        if (slotId >= RootData.RootInstance.InventorySlotsCount) return;
+        
         var oldItem = _inventoryDictionary[_activeItem.Item1];
         var newItem = _inventoryDictionary[slotId];
         

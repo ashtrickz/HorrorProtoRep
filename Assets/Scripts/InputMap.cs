@@ -80,6 +80,42 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchItem1"",
+                    ""type"": ""Button"",
+                    ""id"": ""9e56c1d9-2d5d-487f-b6b7-d6fcc3bc3d50"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""SwitchItem2"",
+                    ""type"": ""Button"",
+                    ""id"": ""0c190cdd-c4ba-442f-8dcf-09a342affe33"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""SwitchItem3"",
+                    ""type"": ""Button"",
+                    ""id"": ""4a2a4d93-b367-4f0c-9932-5316e988c677"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""SwitchItem4"",
+                    ""type"": ""Button"",
+                    ""id"": ""d2cb74eb-d4f5-429a-bd87-5708b40030c2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -192,6 +228,50 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""action"": ""Drop"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2fdb1d66-f42e-44e4-b1cb-2687fd3909fe"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""SwitchItem1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""57d67bba-f883-4f94-8720-dd94e3115fdd"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""SwitchItem2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""98c10483-3356-40d5-81a8-6a1ea077f433"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""SwitchItem3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8be5011c-cc40-41a6-8bd5-c77e9d436e10"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""SwitchItem4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -223,6 +303,10 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         m_InGameIM_MouseMove = m_InGameIM.FindAction("MouseMove", throwIfNotFound: true);
         m_InGameIM_Interact = m_InGameIM.FindAction("Interact", throwIfNotFound: true);
         m_InGameIM_Drop = m_InGameIM.FindAction("Drop", throwIfNotFound: true);
+        m_InGameIM_SwitchItem1 = m_InGameIM.FindAction("SwitchItem1", throwIfNotFound: true);
+        m_InGameIM_SwitchItem2 = m_InGameIM.FindAction("SwitchItem2", throwIfNotFound: true);
+        m_InGameIM_SwitchItem3 = m_InGameIM.FindAction("SwitchItem3", throwIfNotFound: true);
+        m_InGameIM_SwitchItem4 = m_InGameIM.FindAction("SwitchItem4", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -290,6 +374,10 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_InGameIM_MouseMove;
     private readonly InputAction m_InGameIM_Interact;
     private readonly InputAction m_InGameIM_Drop;
+    private readonly InputAction m_InGameIM_SwitchItem1;
+    private readonly InputAction m_InGameIM_SwitchItem2;
+    private readonly InputAction m_InGameIM_SwitchItem3;
+    private readonly InputAction m_InGameIM_SwitchItem4;
     public struct InGameIMActions
     {
         private @InputMap m_Wrapper;
@@ -300,6 +388,10 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         public InputAction @MouseMove => m_Wrapper.m_InGameIM_MouseMove;
         public InputAction @Interact => m_Wrapper.m_InGameIM_Interact;
         public InputAction @Drop => m_Wrapper.m_InGameIM_Drop;
+        public InputAction @SwitchItem1 => m_Wrapper.m_InGameIM_SwitchItem1;
+        public InputAction @SwitchItem2 => m_Wrapper.m_InGameIM_SwitchItem2;
+        public InputAction @SwitchItem3 => m_Wrapper.m_InGameIM_SwitchItem3;
+        public InputAction @SwitchItem4 => m_Wrapper.m_InGameIM_SwitchItem4;
         public InputActionMap Get() { return m_Wrapper.m_InGameIM; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -327,6 +419,18 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @Drop.started += instance.OnDrop;
             @Drop.performed += instance.OnDrop;
             @Drop.canceled += instance.OnDrop;
+            @SwitchItem1.started += instance.OnSwitchItem1;
+            @SwitchItem1.performed += instance.OnSwitchItem1;
+            @SwitchItem1.canceled += instance.OnSwitchItem1;
+            @SwitchItem2.started += instance.OnSwitchItem2;
+            @SwitchItem2.performed += instance.OnSwitchItem2;
+            @SwitchItem2.canceled += instance.OnSwitchItem2;
+            @SwitchItem3.started += instance.OnSwitchItem3;
+            @SwitchItem3.performed += instance.OnSwitchItem3;
+            @SwitchItem3.canceled += instance.OnSwitchItem3;
+            @SwitchItem4.started += instance.OnSwitchItem4;
+            @SwitchItem4.performed += instance.OnSwitchItem4;
+            @SwitchItem4.canceled += instance.OnSwitchItem4;
         }
 
         private void UnregisterCallbacks(IInGameIMActions instance)
@@ -349,6 +453,18 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @Drop.started -= instance.OnDrop;
             @Drop.performed -= instance.OnDrop;
             @Drop.canceled -= instance.OnDrop;
+            @SwitchItem1.started -= instance.OnSwitchItem1;
+            @SwitchItem1.performed -= instance.OnSwitchItem1;
+            @SwitchItem1.canceled -= instance.OnSwitchItem1;
+            @SwitchItem2.started -= instance.OnSwitchItem2;
+            @SwitchItem2.performed -= instance.OnSwitchItem2;
+            @SwitchItem2.canceled -= instance.OnSwitchItem2;
+            @SwitchItem3.started -= instance.OnSwitchItem3;
+            @SwitchItem3.performed -= instance.OnSwitchItem3;
+            @SwitchItem3.canceled -= instance.OnSwitchItem3;
+            @SwitchItem4.started -= instance.OnSwitchItem4;
+            @SwitchItem4.performed -= instance.OnSwitchItem4;
+            @SwitchItem4.canceled -= instance.OnSwitchItem4;
         }
 
         public void RemoveCallbacks(IInGameIMActions instance)
@@ -383,5 +499,9 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         void OnMouseMove(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnDrop(InputAction.CallbackContext context);
+        void OnSwitchItem1(InputAction.CallbackContext context);
+        void OnSwitchItem2(InputAction.CallbackContext context);
+        void OnSwitchItem3(InputAction.CallbackContext context);
+        void OnSwitchItem4(InputAction.CallbackContext context);
     }
 }
