@@ -20,7 +20,7 @@ public class PlayerManager : MonoBehaviour
     public CameraManager CameraManager => cameraManager;
     public InventoryManager InventoryManager => inventoryManager;
 
-    private void Awake()
+    private void Start()
     {
         InitializeManagers();
     }

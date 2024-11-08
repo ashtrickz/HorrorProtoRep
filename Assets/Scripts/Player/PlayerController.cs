@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float gravityForce = 10f;
     [SerializeField] private float gravityMultiplier = 3f;
 
+    private Vector2 _rotation = Vector2.zero;
     private Vector3 _moveDirection;
     private float _velocity;
 
@@ -42,7 +43,6 @@ public class PlayerController : MonoBehaviour
     public void Update()
     {
         HandleRotation();
-        HandleCamera();
     }
 
     private void HandleMovement()
@@ -71,13 +71,16 @@ public class PlayerController : MonoBehaviour
 
     private void HandleRotation()
     {
-        // Try euler 
-        transform.Rotate(Vector3.up, InputManager.CameraInput.x * CameraManager.Sensitivity.x * Time.deltaTime);
-    }
+        var cm = CameraManager;
+        var im = InputManager;
+        
+        _rotation.x += im.CameraInput.x * (cm.Sensitivity.x * 0.25f);
+        _rotation.y += im.CameraInput.y * (cm.Sensitivity.y * 0.25f);
+        _rotation.y = Mathf.Clamp(_rotation.y, -cm.CameraYRange, cm.CameraYRange);
+        var xQuaternion = Quaternion.AngleAxis(_rotation.x, Vector3.up);
+        var yQuaternion = Quaternion.AngleAxis(_rotation.y, Vector3.left);
 
-    private void HandleCamera()
-    {
-        if (InputManager.InputAxis == Vector2.zero) CameraManager.ManageAnimationSpeed(0.25f);
-        else CameraManager.ManageAnimationSpeed(InputManager.IsSprinting ? 2 : 1);
+        transform.localRotation = xQuaternion;
+        CameraManager.CinemachineCam.transform.localRotation = yQuaternion;
     }
 }

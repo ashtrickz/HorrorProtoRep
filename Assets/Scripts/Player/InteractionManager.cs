@@ -12,6 +12,7 @@ public class InteractionManager : MonoBehaviour
     private PlayerManager _player;
 
     private IInteractable _interactable;
+    private Outline _lastOutline;
     
     public void Init(PlayerManager playerManager)
     {
@@ -27,6 +28,12 @@ public class InteractionManager : MonoBehaviour
             interactionDistance,
             interactionLayer))
         {
+            if (_lastOutline != null)
+            {
+                _lastOutline.ToggleOutline(false);
+                _lastOutline = null;
+            }
+
             _interactable = null;
             PlayerUIManager.Instance.ToggleInteractablePopup(false);
             return;
@@ -36,6 +43,13 @@ public class InteractionManager : MonoBehaviour
         _interactable = hit.collider.GetComponent<IInteractable>();
 
         PlayerUIManager.Instance.ToggleInteractablePopup(true);
+
+        var interactableOutline = hit.collider.GetComponent<Outline>();
+        if (interactableOutline == null || _lastOutline == interactableOutline) return;
+
+        _lastOutline = interactableOutline;
+        _lastOutline.ToggleOutline();
+
     }
 
     public void TryInteract()

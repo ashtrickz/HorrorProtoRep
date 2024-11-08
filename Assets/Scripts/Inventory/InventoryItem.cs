@@ -11,7 +11,8 @@ public class InventoryItem : MonoBehaviour, IInteractable
     [SerializeField] private Rigidbody rigidbody;
 
     [SerializeField] private InventoryItemData itemData;
-    
+    [SerializeField] private Outline outlineManager;
+    [SerializeField] private bool initOnStart = true;
     public bool Interactable = true;
     
     /*/ GETTERS/*/
@@ -20,9 +21,15 @@ public class InventoryItem : MonoBehaviour, IInteractable
     public Collider Collider => collider;
     public Rigidbody Rigidbody => rigidbody;
 
+    private void Start()
+    {
+        if (initOnStart) Init(itemData);
+    }
+    
     public void Init(InventoryItemData data)
     {
         itemData = data;
+        outlineManager.ToggleOutline(false);
     }
     
     public void Interact(PlayerManager player)
@@ -34,4 +41,5 @@ public class InventoryItem : MonoBehaviour, IInteractable
 
         player.InventoryManager.PickUpItem(player, this);
     }
+    
 }

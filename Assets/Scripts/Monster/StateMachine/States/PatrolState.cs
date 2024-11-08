@@ -114,7 +114,7 @@ public class PatrolState : BaseState
     {
         base.FixedTick();
         
-        if (Core.Animator != null)
+        if (Core.Animator.runtimeAnimatorController != null)
             Core.Animator.SetFloat("WalkSpeed", agent.velocity.magnitude/agent.speed);
 
         if (_patrolingPaused) return;

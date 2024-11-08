@@ -25,6 +25,7 @@ public class InputManager : MonoBehaviour
         _player = playerManager;
         
         _inputMap = new InputMap();
+        _inputMap.Enable();
     }
 
     public void OnLook(InputAction.CallbackContext ctx)
@@ -34,11 +35,13 @@ public class InputManager : MonoBehaviour
 
     private void OnEnable()
     {
-        _inputMap.Enable();
+        if (_inputMap != null)
+            _inputMap.Enable();
     }
 
     private void OnDisable()
-    {
-        _inputMap.Disable();
+    { 
+        if (_inputMap != null) 
+            _inputMap.Disable();
     }
 }

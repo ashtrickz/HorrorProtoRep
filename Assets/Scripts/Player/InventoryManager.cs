@@ -62,9 +62,13 @@ public class InventoryManager : MonoBehaviour
     {
         item.Interactable = false;
         item.Collider.enabled = false;
+        item.Rigidbody.useGravity = false;
         item.Rigidbody.isKinematic = true;
         item.transform.SetParent(itemContainer);
         item.transform.position = itemContainer.position;
+
+        item.transform.localPosition = item.Data.InventoryPosition;
+        item.transform.localRotation = Quaternion.Euler(0, 0, 0);
 
 #if UNITY_EDITOR
         Debug.Log($"Added {item.gameObject.name} for {player.gameObject.name}");
@@ -117,9 +121,10 @@ public class InventoryManager : MonoBehaviour
         
         item.Interactable = true;
         item.Collider.enabled = true;
+        item.Rigidbody.useGravity = true;
         item.Rigidbody.isKinematic = false;
         item.transform.SetParent(_worldItemsContainer);
-        item.transform.position = itemContainer.position;
+        //item.transform.position = itemContainer.position;
         
         item.Rigidbody.AddForce((_player.transform.forward * 2) + (_player.transform.up * 2), ForceMode.Force);
 
