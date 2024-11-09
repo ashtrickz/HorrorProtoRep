@@ -38,9 +38,10 @@ public class ViewBobbing : MonoBehaviour
 
     private void CalculateSinTime()
     {
+        var currentSpeed = inputManager.IsSprinting ? speed * 2 : speed;
         Vector3 inputVector = new Vector3(inputManager.InputAxis.x, 0, inputManager.InputAxis.y);
         if (inputVector.magnitude > 0f)
-            _sinTime += Time.deltaTime * speed;
+            _sinTime += Time.deltaTime * currentSpeed;
         else if (_sinTime > 1)
             _sinTime = 1;
         else
@@ -49,8 +50,9 @@ public class ViewBobbing : MonoBehaviour
 
     private void CalculateOffset()
     {
-        float sinAmountY = -Mathf.Abs(intensity * Mathf.Sin(_sinTime));
-        Vector3 sinAmountX = transform.right * intensity * Mathf.Cos(_sinTime) * intensityX;
+        var currentIntensity = inputManager.IsSprinting ? intensity * 2 : intensity;
+        float sinAmountY = -Mathf.Abs(currentIntensity * Mathf.Sin(_sinTime));
+        Vector3 sinAmountX = transform.right * currentIntensity * Mathf.Cos(_sinTime) * intensityX;
 
         _bobbingOffset = new Vector3(_originalOffset.x, _originalOffset.y + sinAmountY, _originalOffset.z);
         _bobbingOffset += sinAmountX;
