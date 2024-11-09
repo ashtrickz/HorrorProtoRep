@@ -143,6 +143,21 @@ public class InventoryManager : MonoBehaviour
     
     #endregion
     
+    #region UseItem
+
+    public void UseActiveItem(PlayerManager player)
+    {
+        if (player != _player) return;
+        
+        _activeItem.Item2.Use();
+        
+#if UNITY_EDITOR
+        Debug.Log($"{_player.gameObject.name} used {_activeItem.Item2.gameObject.name}.");
+#endif
+    }
+    
+    #endregion
+    
     private int GetSlotID(InventoryItem item = null)
     {
         var slotID = -1;

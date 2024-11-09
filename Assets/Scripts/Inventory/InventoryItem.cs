@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Playables;
 
-public class InventoryItem : MonoBehaviour, IInteractable
+public class InventoryItem : MonoBehaviour, IInteractable, IUsable
 {
     [SerializeField] private Collider collider;
     [SerializeField] private Rigidbody rigidbody;
@@ -14,6 +14,8 @@ public class InventoryItem : MonoBehaviour, IInteractable
     [SerializeField] private Outline outlineManager;
     [SerializeField] private bool initOnStart = true;
     public bool Interactable = true;
+
+    [Space, SerializeField] private GameObject fireObject; 
     
     /*/ GETTERS/*/
 
@@ -41,5 +43,14 @@ public class InventoryItem : MonoBehaviour, IInteractable
 
         player.InventoryManager.PickUpItem(player, this);
     }
-    
+
+    public void Use()
+    {
+        ToggleParticles();
+    }
+
+    private void ToggleParticles()
+    {
+        fireObject.SetActive(!fireObject.activeSelf);
+    }
 }

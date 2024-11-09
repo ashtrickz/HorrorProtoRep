@@ -116,6 +116,15 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""UseItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""61238020-e0b4-4475-a02c-50792be670ff"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -272,6 +281,17 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""action"": ""SwitchItem4"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f8d5548d-5fbd-4e0f-9842-a462eb2afb3a"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""UseItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -307,6 +327,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         m_InGameIM_SwitchItem2 = m_InGameIM.FindAction("SwitchItem2", throwIfNotFound: true);
         m_InGameIM_SwitchItem3 = m_InGameIM.FindAction("SwitchItem3", throwIfNotFound: true);
         m_InGameIM_SwitchItem4 = m_InGameIM.FindAction("SwitchItem4", throwIfNotFound: true);
+        m_InGameIM_UseItem = m_InGameIM.FindAction("UseItem", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -378,6 +399,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_InGameIM_SwitchItem2;
     private readonly InputAction m_InGameIM_SwitchItem3;
     private readonly InputAction m_InGameIM_SwitchItem4;
+    private readonly InputAction m_InGameIM_UseItem;
     public struct InGameIMActions
     {
         private @InputMap m_Wrapper;
@@ -392,6 +414,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         public InputAction @SwitchItem2 => m_Wrapper.m_InGameIM_SwitchItem2;
         public InputAction @SwitchItem3 => m_Wrapper.m_InGameIM_SwitchItem3;
         public InputAction @SwitchItem4 => m_Wrapper.m_InGameIM_SwitchItem4;
+        public InputAction @UseItem => m_Wrapper.m_InGameIM_UseItem;
         public InputActionMap Get() { return m_Wrapper.m_InGameIM; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -431,6 +454,9 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @SwitchItem4.started += instance.OnSwitchItem4;
             @SwitchItem4.performed += instance.OnSwitchItem4;
             @SwitchItem4.canceled += instance.OnSwitchItem4;
+            @UseItem.started += instance.OnUseItem;
+            @UseItem.performed += instance.OnUseItem;
+            @UseItem.canceled += instance.OnUseItem;
         }
 
         private void UnregisterCallbacks(IInGameIMActions instance)
@@ -465,6 +491,9 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @SwitchItem4.started -= instance.OnSwitchItem4;
             @SwitchItem4.performed -= instance.OnSwitchItem4;
             @SwitchItem4.canceled -= instance.OnSwitchItem4;
+            @UseItem.started -= instance.OnUseItem;
+            @UseItem.performed -= instance.OnUseItem;
+            @UseItem.canceled -= instance.OnUseItem;
         }
 
         public void RemoveCallbacks(IInGameIMActions instance)
@@ -503,5 +532,6 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         void OnSwitchItem2(InputAction.CallbackContext context);
         void OnSwitchItem3(InputAction.CallbackContext context);
         void OnSwitchItem4(InputAction.CallbackContext context);
+        void OnUseItem(InputAction.CallbackContext context);
     }
 }
