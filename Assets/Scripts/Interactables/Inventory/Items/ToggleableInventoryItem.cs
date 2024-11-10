@@ -1,7 +1,7 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Inventory.Items
+namespace Interactables.Inventory.Items
 {
     public class ToggleableInventoryItem : InventoryItem
     {

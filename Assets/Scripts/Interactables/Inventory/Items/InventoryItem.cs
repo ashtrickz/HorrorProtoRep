@@ -1,8 +1,7 @@
-using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Inventory.Items
+namespace Interactables.Inventory.Items
 {
     [RequireComponent(typeof(Collider))]
     [RequireComponent(typeof(Rigidbody))]

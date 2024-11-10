@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Player;
 using Sirenix.OdinInspector;
 using Sirenix.Reflection.Editor;
 using Unity.Collections;

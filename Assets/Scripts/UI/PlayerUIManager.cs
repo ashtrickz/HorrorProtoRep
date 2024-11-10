@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Inventory.Items;
+using Interactables.Inventory.Items;
 using Unity.VisualScripting;
 using UnityEngine;
 
