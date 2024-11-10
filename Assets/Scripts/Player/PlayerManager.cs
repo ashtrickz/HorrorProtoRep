@@ -24,6 +24,7 @@ public class PlayerManager : MonoBehaviour
     private void Start()
     {
         InitializeManagers();
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void InitializeManagers()
