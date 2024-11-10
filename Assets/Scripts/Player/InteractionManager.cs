@@ -11,7 +11,7 @@ public class InteractionManager : MonoBehaviour
 
     private PlayerManager _player;
 
-    private IInteractable _interactable;
+    private InteractableBase _interactable;
     private Outline _lastOutline;
     
     public void Init(PlayerManager playerManager)
@@ -39,15 +39,20 @@ public class InteractionManager : MonoBehaviour
             return;
         }
         
-        if (!hit.collider.CompareTag("Interactable")) return;
-        _interactable = hit.collider.GetComponent<IInteractable>();
+        //if (!hit.collider.CompareTag("Interactable")) return;
+        _interactable = hit.collider.GetComponent<InteractableBase>();
+        if (_interactable == null)
+        {
+            //Check if Collider is on a Model but not the main Interactable Object;
+            _interactable = hit.collider.transform.parent.GetComponent<InteractableBase>();
+            if (_interactable == null) return;
+        }
 
         PlayerUIManager.Instance.ToggleInteractablePopup(true);
 
-        var interactableOutline = hit.collider.GetComponent<Outline>();
-        if (interactableOutline == null || _lastOutline == interactableOutline) return;
+        if (_lastOutline == _interactable.Outline) return;
 
-        _lastOutline = interactableOutline;
+        _lastOutline = _interactable.Outline;
         _lastOutline.ToggleOutline();
 
     }

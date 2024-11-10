@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Inventory.Items;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -147,7 +148,7 @@ public class InventoryManager : MonoBehaviour
 
     public void UseActiveItem(PlayerManager player)
     {
-        if (player != _player) return;
+        if (player != _player || _activeItem.Item2 == null) return;
         
         _activeItem.Item2.Use();
         
@@ -157,6 +158,8 @@ public class InventoryManager : MonoBehaviour
     }
     
     #endregion
+    
+    /*/ HELPERS /*/
     
     private int GetSlotID(InventoryItem item = null)
     {
