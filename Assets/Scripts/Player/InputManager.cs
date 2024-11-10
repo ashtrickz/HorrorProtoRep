@@ -16,7 +16,7 @@ public class InputManager : MonoBehaviour
     public bool IsJumping    => _inputMap.InGameIM.Jump.IsPressed();
     public Vector2 InputAxis => _inputMap.InGameIM.Move.ReadValue<Vector2>();
     
-    public Vector2 CameraInput;
+    [DisplayAsString] public Vector2 CameraInput;
 
     private PlayerManager _player;
 

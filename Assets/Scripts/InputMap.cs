@@ -55,6 +55,15 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Crouch"",
+                    ""type"": ""Button"",
+                    ""id"": ""97e6b401-ffdb-49df-ba65-ffe1677942c3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""MouseMove"",
                     ""type"": ""PassThrough"",
                     ""id"": ""718bf73e-c997-48cb-905c-3ef155908a78"",
@@ -292,6 +301,17 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""action"": ""UseItem"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ccf20d31-2138-4cc3-aac9-a3b3813e55bd"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -320,6 +340,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         m_InGameIM_Move = m_InGameIM.FindAction("Move", throwIfNotFound: true);
         m_InGameIM_Jump = m_InGameIM.FindAction("Jump", throwIfNotFound: true);
         m_InGameIM_Sprint = m_InGameIM.FindAction("Sprint", throwIfNotFound: true);
+        m_InGameIM_Crouch = m_InGameIM.FindAction("Crouch", throwIfNotFound: true);
         m_InGameIM_MouseMove = m_InGameIM.FindAction("MouseMove", throwIfNotFound: true);
         m_InGameIM_Interact = m_InGameIM.FindAction("Interact", throwIfNotFound: true);
         m_InGameIM_Drop = m_InGameIM.FindAction("Drop", throwIfNotFound: true);
@@ -392,6 +413,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_InGameIM_Move;
     private readonly InputAction m_InGameIM_Jump;
     private readonly InputAction m_InGameIM_Sprint;
+    private readonly InputAction m_InGameIM_Crouch;
     private readonly InputAction m_InGameIM_MouseMove;
     private readonly InputAction m_InGameIM_Interact;
     private readonly InputAction m_InGameIM_Drop;
@@ -407,6 +429,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_InGameIM_Move;
         public InputAction @Jump => m_Wrapper.m_InGameIM_Jump;
         public InputAction @Sprint => m_Wrapper.m_InGameIM_Sprint;
+        public InputAction @Crouch => m_Wrapper.m_InGameIM_Crouch;
         public InputAction @MouseMove => m_Wrapper.m_InGameIM_MouseMove;
         public InputAction @Interact => m_Wrapper.m_InGameIM_Interact;
         public InputAction @Drop => m_Wrapper.m_InGameIM_Drop;
@@ -433,6 +456,9 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
+            @Crouch.started += instance.OnCrouch;
+            @Crouch.performed += instance.OnCrouch;
+            @Crouch.canceled += instance.OnCrouch;
             @MouseMove.started += instance.OnMouseMove;
             @MouseMove.performed += instance.OnMouseMove;
             @MouseMove.canceled += instance.OnMouseMove;
@@ -470,6 +496,9 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
+            @Crouch.started -= instance.OnCrouch;
+            @Crouch.performed -= instance.OnCrouch;
+            @Crouch.canceled -= instance.OnCrouch;
             @MouseMove.started -= instance.OnMouseMove;
             @MouseMove.performed -= instance.OnMouseMove;
             @MouseMove.canceled -= instance.OnMouseMove;
@@ -525,6 +554,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
+        void OnCrouch(InputAction.CallbackContext context);
         void OnMouseMove(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnDrop(InputAction.CallbackContext context);

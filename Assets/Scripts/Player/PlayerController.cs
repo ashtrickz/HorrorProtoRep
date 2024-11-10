@@ -1,29 +1,37 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Sirenix.OdinInspector;
 using Sirenix.Reflection.Editor;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private CharacterController controller;
+    [SerializeField] private ViewBobbing viewBobbing;
 
-    [Space, Title("Controller Settings", TitleAlignment = TitleAlignments.Centered)] [SerializeField]
-    private float walkSpeed;
-
+    [Space, Title("Controller Settings", TitleAlignment = TitleAlignments.Centered)] 
+    [SerializeField] private float walkSpeed;
     [SerializeField] private float runSpeed;
+    [SerializeField] private float crouchSpeed;
     [SerializeField] private float staminaAmount;
     [SerializeField] private float jumpForce = 20f;
     [SerializeField] private float gravityForce = 10f;
     [SerializeField] private float gravityMultiplier = 3f;
 
+    [SerializeField] private float headStateChangeSpeed = .5f;
+    [SerializeField] private float onCrouchHeadHeight, defaultHeadHeight;
+    
+    private CharacterController _controller;
     private Vector2 _rotation = Vector2.zero;
     private Vector3 _moveDirection;
-    private float _velocity;
 
+    private float _velocity;
+    private bool _isCrouching = false;
+    
     private PlayerManager _player;
     private InputManager InputManager => _player.InputManager;
     private CameraManager CameraManager => _player.CameraManager;
@@ -31,6 +39,8 @@ public class PlayerController : MonoBehaviour
     public void Init(PlayerManager playerManager)
     {
         _player = playerManager;
+        _controller = GetComponent<CharacterController>();
+        
     }
     
     public void FixedUpdate()
@@ -51,14 +61,16 @@ public class PlayerController : MonoBehaviour
 
         _moveDirection = new Vector3(InputManager.InputAxis.x, _moveDirection.y, InputManager.InputAxis.y);
         _moveDirection = transform.TransformDirection(_moveDirection);
-        _moveDirection *= (InputManager.IsSprinting ? runSpeed : walkSpeed);
+        
+        if (_isCrouching) _moveDirection *= crouchSpeed;
+        else _moveDirection *= (InputManager.IsSprinting ? runSpeed : walkSpeed);
 
-        controller.Move(_moveDirection * Time.fixedDeltaTime);
+        _controller.Move(_moveDirection * Time.fixedDeltaTime);
     }
 
     private void HandleGravity()
     {
-        if (controller.isGrounded && _velocity < 0f) _velocity = -1f;
+        if (_controller.isGrounded && _velocity < 0f) _velocity = -1f;
         else _velocity -= gravityForce * gravityMultiplier * Time.fixedDeltaTime;
 
         _moveDirection.y = _velocity;
@@ -66,7 +78,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleJump()
     {
-        if (InputManager.IsJumping && controller.isGrounded) _velocity += jumpForce;
+        if (InputManager.IsJumping && _controller.isGrounded) _velocity += jumpForce;
     }
 
     private void HandleRotation()
@@ -83,4 +95,20 @@ public class PlayerController : MonoBehaviour
         transform.localRotation = xQuaternion;
         CameraManager.CinemachineCam.transform.localRotation = yQuaternion;
     }
+
+    public void ToggleCrouch()
+    {
+        _isCrouching = !_isCrouching;
+        if (_isCrouching) viewBobbing.enabled = false;
+
+        _controller.center = new Vector3(0, _isCrouching ? -.5f : 0);
+        _controller.height = _isCrouching ? 1 : 2;
+
+        viewBobbing.transform.DOLocalMoveY(_isCrouching ? onCrouchHeadHeight : defaultHeadHeight, headStateChangeSpeed)
+            .OnComplete(() =>
+            {
+                if (!_isCrouching) viewBobbing.enabled = true;
+            });
+    }
+    
 }
