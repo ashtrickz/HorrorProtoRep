@@ -1,5 +1,9 @@
 <h2> Character Controller </h2>
 <p> First of all project has Player Controller with various managers for Player to function in any ways. Player can walk, sprint, crouch, pick/switch/drop items, use them if intended, press buttons/switches, open doors. All the parameters and data for managing this functions is easy to configure without changing a single line of code.</p>
+
+<video src=https://github.com/user-attachments/assets/96edad83-75c8-479d-8c86-60105edd3e17></video>
+
+<p> Shortly about Managers and main components</p>
 <ul>
   <li>Manager for handling all Player's Sub Managers:</li>
     <img src=https://github.com/user-attachments/assets/30ae3e48-310c-46e7-ba77-1997f6bc66b5>
