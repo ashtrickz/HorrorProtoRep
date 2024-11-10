@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcfd0cdd7f5679440995dc2ae92d8c5e, type: 3}
   m_Name: CandleData
   m_EditorClassIdentifier: 
-  itemStringID: 
+  itemStringID: Candle
   itemSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   inventoryPosition: {x: 0.396, y: -0.247, z: 0.516}
+  onUseSound: {fileID: 0}

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -11,6 +12,12 @@ public class InteractableBase : MonoBehaviour, IInteractable
     [SerializeField] protected AudioClip OnInteractSound;
     [SerializeField] protected EInteractableState interactableState;
     
+    [FoldoutGroup("Tweening")]
+    [SerializeField] protected float MoveDuration;
+    [FoldoutGroup("Tweening")]
+    [SerializeField] protected Ease AnimationEasing;
+    
+    [Space]
     public bool Interactable = true;
     
     protected Outline OutlineManager;
@@ -35,6 +42,10 @@ public class InteractableBase : MonoBehaviour, IInteractable
             AudioSource.clip = OnInteractSound;
             AudioSource.Play();
         }
+
+        interactableState = interactableState == EInteractableState.Pressed
+            ? EInteractableState.Released
+            : EInteractableState.Pressed;
     }
 
     protected enum EInteractableState

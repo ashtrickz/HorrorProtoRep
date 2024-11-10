@@ -49,10 +49,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnInteractSound: {fileID: 0}
   interactableState: 0
+  MoveDuration: 0.5
+  AnimationEasing: 1
   Interactable: 1
   openDirection: 0
-  moveDuration: 0.5
-  animationEasing: 1
 --- !u!114 &2027199041835229082
 MonoBehaviour:
   m_ObjectHideFlags: 0

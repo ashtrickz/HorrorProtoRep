@@ -10,8 +10,6 @@ public class DoorBehaviour : InteractableBase
 {
     [Title("Door Properties", TitleAlignment =  TitleAlignments.Centered)]
     [SerializeField] private EOpenDirection openDirection;
-    [SerializeField] private float moveDuration;
-    [SerializeField] private Ease animationEasing;
 
     private Vector3 _originalRotation;
     private Vector3 _openedRotation;
@@ -52,13 +50,13 @@ public class DoorBehaviour : InteractableBase
         switch (interactableState)
         {
             //Opened in context of a Door
-            case EInteractableState.Pressed:
-                transform.DORotate(_closedRotation, moveDuration).SetEase(animationEasing);
+            case EInteractableState.Released:
+                transform.DORotate(_closedRotation, MoveDuration).SetEase(AnimationEasing);
                 interactableState = EInteractableState.Released;
                 break;
             //Closed in context of a Door
-            case EInteractableState.Released:
-                transform.DORotate(_openedRotation, moveDuration).SetEase(animationEasing);
+            case EInteractableState.Pressed:
+                transform.DORotate(_openedRotation, MoveDuration).SetEase(AnimationEasing);
                 interactableState = EInteractableState.Pressed;
                 break;
         }
