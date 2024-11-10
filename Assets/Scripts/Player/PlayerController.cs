@@ -11,21 +11,25 @@ using UnityEngine.InputSystem.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private ViewBobbing viewBobbing;
-
-    [Space, Title("Controller Settings", TitleAlignment = TitleAlignments.Centered)] 
+    [Space, Title("Speed Parameters", TitleAlignment = TitleAlignments.Centered)]
     [SerializeField] private float walkSpeed;
     [SerializeField] private float runSpeed;
     [SerializeField] private float crouchSpeed;
     [SerializeField] private float staminaAmount;
+    
+    [Space, Title("Gravity Parameters", TitleAlignment = TitleAlignments.Centered)]
     [SerializeField] private float jumpForce = 20f;
     [SerializeField] private float gravityForce = 10f;
     [SerializeField] private float gravityMultiplier = 3f;
-
-    [SerializeField] private float headStateChangeSpeed = .5f;
-    [SerializeField] private float onCrouchHeadHeight, defaultHeadHeight;
     
+    [Space, Title("State Change Parameters", TitleAlignment = TitleAlignments.Centered)]
+    [SerializeField] private float headStateChangeDuration = .5f;
+    [SerializeField] private float defaultHeadHeight = 0.453f, onCrouchHeadHeight = 0.072f;
+    [SerializeField] private float playerDefaultHeight = 2, playerCrouchHeight = 1;
+
     private CharacterController _controller;
+    private ViewBobbing _viewBobbing;
+    
     private Vector2 _rotation = Vector2.zero;
     private Vector3 _moveDirection;
 
@@ -40,7 +44,8 @@ public class PlayerController : MonoBehaviour
     {
         _player = playerManager;
         _controller = GetComponent<CharacterController>();
-        
+        _viewBobbing = GetComponentInChildren<ViewBobbing>();
+
     }
     
     public void FixedUpdate()
@@ -99,15 +104,15 @@ public class PlayerController : MonoBehaviour
     public void ToggleCrouch()
     {
         _isCrouching = !_isCrouching;
-        if (_isCrouching) viewBobbing.enabled = false;
+        if (_isCrouching) _viewBobbing.enabled = false;
 
         _controller.center = new Vector3(0, _isCrouching ? -.5f : 0);
-        _controller.height = _isCrouching ? 1 : 2;
+        _controller.height = _isCrouching ? playerCrouchHeight : playerDefaultHeight;
 
-        viewBobbing.transform.DOLocalMoveY(_isCrouching ? onCrouchHeadHeight : defaultHeadHeight, headStateChangeSpeed)
+        _viewBobbing.transform.DOLocalMoveY(_isCrouching ? onCrouchHeadHeight : defaultHeadHeight, headStateChangeDuration)
             .OnComplete(() =>
             {
-                if (!_isCrouching) viewBobbing.enabled = true;
+                if (!_isCrouching) _viewBobbing.enabled = true;
             });
     }
     

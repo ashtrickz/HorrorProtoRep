@@ -114,13 +114,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ab7eff95d0b1f942a8cd6ae0de6ee16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 8396404970748000773}
   walkSpeed: 4
   runSpeed: 8
+  crouchSpeed: 2
   staminaAmount: 100
   jumpForce: 1
   gravityForce: 8
   gravityMultiplier: 1
+  headStateChangeDuration: 0.3
+  defaultHeadHeight: 0.453
+  onCrouchHeadHeight: 0.072
+  playerDefaultHeight: 2
+  playerCrouchHeight: 1
 --- !u!143 &8396404970748000773
 CharacterController:
   m_ObjectHideFlags: 0
@@ -492,6 +497,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: d2cb74eb-d4f5-429a-bd87-5708b40030c2
     m_ActionName: InGameIM/SwitchItem4[/Keyboard/4]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4076440429052193287}
+        m_TargetAssemblyTypeName: InventoryManager, Assembly-CSharp
+        m_MethodName: UseActiveItem
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 7638776397418948791}
+          m_ObjectArgumentAssemblyTypeName: PlayerManager, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 61238020-e0b4-4475-a02c-50792be670ff
+    m_ActionName: InGameIM/UseItem[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4407466088222798270}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: ToggleCrouch
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 97e6b401-ffdb-49df-ba65-ffe1677942c3
+    m_ActionName: InGameIM/Crouch[/Keyboard/c]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard & Mouse
   m_DefaultActionMap: InGameIM
@@ -507,7 +544,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8877069077387962871}
   - component: {fileID: 4350497847416139630}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: InteractionManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
